@@ -11,19 +11,19 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+       
         body {
             background-color: #f5f5f5;
             color: #333;
             line-height: 1.6;
         }
-        
+       
         .container {
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
         }
-        
+       
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -32,24 +32,24 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        
+       
         h1 {
             color: #333;
             margin-bottom: 10px;
         }
-        
+       
         .tagline {
             color: #666;
             font-style: italic;
         }
-        
+       
         .main-content {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
         }
-        
-        .input-section {
+       
+        .input-section, .what-to-wear-section, .wardrobe-section {
             flex: 1;
             min-width: 300px;
             background-color: #fff;
@@ -57,8 +57,8 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        
-        .result-section {
+       
+        .result-section, .suggestions-section, .wardrobe-output-section {
             flex: 1;
             min-width: 300px;
             background-color: #fff;
@@ -67,32 +67,36 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: none;
         }
-        
+       
         h2 {
             margin-bottom: 20px;
             color: #444;
             border-bottom: 1px solid #eee;
             padding-bottom: 10px;
         }
-        
+       
         .form-group {
             margin-bottom: 15px;
         }
-        
+       
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: 600;
         }
-        
-        input, select {
+       
+        input, select, textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
         }
-        
+       
+        textarea {
+            resize: vertical;
+        }
+       
         button {
             background-color: #4CAF50;
             color: white;
@@ -106,11 +110,11 @@
             margin-top: 20px;
             transition: background-color 0.3s;
         }
-        
+       
         button:hover {
             background-color: #45a049;
         }
-        
+       
         .image-preview {
             width: 100%;
             margin-top: 20px;
@@ -119,26 +123,26 @@
             padding: 10px;
             text-align: center;
         }
-        
-        #preview-image {
+       
+        #preview-image, #preview-garment-image, .wardrobe-image-preview img {
             max-width: 100%;
             max-height: 300px;
             display: none;
         }
-        
-        .analysis-section {
+       
+        .analysis-section, .suggestions-content, .wardrobe-output-content {
             margin-top: 20px;
         }
-        
+       
         .analysis-item {
             margin-bottom: 15px;
         }
-        
+       
         .analysis-item h3 {
             margin-bottom: 5px;
             color: #555;
         }
-        
+       
         .loader {
             border: 5px solid #f3f3f3;
             border-radius: 50%;
@@ -149,23 +153,39 @@
             margin: 20px auto;
             display: none;
         }
-        
+       
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        .suggestions {
+       
+        .suggestions, .wardrobe-output-content {
             background-color: #f9f9f9;
             padding: 15px;
             border-radius: 5px;
             margin-top: 20px;
         }
-        
+       
         .error-message {
             color: #d9534f;
             margin-top: 10px;
             display: none;
+        }
+       
+        .add-garment-button {
+            background-color: #3498db;
+            margin-bottom: 20px;
+        }
+       
+        .add-garment-button:hover {
+            background-color: #2980b9;
+        }
+       
+        .garment-input-group {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -175,8 +195,9 @@
             <h1>Outfit Analyzer</h1>
             <p class="tagline">Find out if your outfit suits you perfectly!</p>
         </header>
-        
+       
         <div class="main-content">
+            <!-- Outfit Analyzer Section -->
             <div class="input-section">
                 <h2>Your Details</h2>
                 <form id="analyzer-form">
@@ -193,17 +214,17 @@
                             <option value="petite">Petite</option>
                         </select>
                     </div>
-                    
+                   
                     <div class="form-group">
                         <label for="height">Height (cm):</label>
                         <input type="number" id="height" min="100" max="250" required>
                     </div>
-                    
+                   
                     <div class="form-group">
                         <label for="weight">Weight (kg):</label>
                         <input type="number" id="weight" min="30" max="250" required>
                     </div>
-                    
+                   
                     <div class="form-group">
                         <label for="skinTone">Skin Tone:</label>
                         <select id="skinTone" required>
@@ -218,7 +239,7 @@
                             <option value="very-dark">Very Dark</option>
                         </select>
                     </div>
-                    
+                   
                     <div class="form-group">
                         <label for="hairColor">Hair Color:</label>
                         <select id="hairColor" required>
@@ -235,7 +256,7 @@
                             <option value="colored">Colored/Dyed</option>
                         </select>
                     </div>
-                    
+                   
                     <div class="form-group">
                         <label for="eyeColor">Eye Color:</label>
                         <select id="eyeColor" required>
@@ -248,7 +269,7 @@
                             <option value="amber">Amber</option>
                         </select>
                     </div>
-                    
+                   
                     <div class="form-group">
                         <label for="gender">Gender:</label>
                         <select id="gender" required>
@@ -259,7 +280,7 @@
                             <option value="other">Other</option>
                         </select>
                     </div>
-                    
+                   
                     <div class="form-group">
                         <label for="outfitImage">Upload Outfit Image:</label>
                         <input type="file" id="outfitImage" accept="image/*" onchange="previewImage(this)" required>
@@ -268,12 +289,13 @@
                             <p id="preview-text">No image selected</p>
                         </div>
                     </div>
-                    
+                   
                     <button type="submit" id="analyze-button">Analyze Outfit</button>
                 </form>
                 <div class="error-message" id="error-message"></div>
             </div>
-            
+           
+            <!-- Outfit Analysis Results -->
             <div class="result-section" id="result-section">
                 <h2>Outfit Analysis</h2>
                 <div class="loader" id="loader"></div>
@@ -282,56 +304,158 @@
                         <h3>Overall Suitability</h3>
                         <p id="suitability-result"></p>
                     </div>
-                    
+                   
                     <div class="analysis-item">
                         <h3>Color Harmony</h3>
                         <p id="color-harmony"></p>
                     </div>
-                    
+                   
                     <div class="analysis-item">
                         <h3>Style Fit</h3>
                         <p id="style-fit"></p>
                     </div>
-                    
+                   
                     <div class="suggestions">
                         <h3>Suggestions & Improvements</h3>
                         <p id="suggestions"></p>
                     </div>
                 </div>
             </div>
+           
+            <!-- What to Wear Section -->
+            <div class="what-to-wear-section">
+                <h2>What to Wear</h2>
+                <form id="what-to-wear-form">
+                    <div class="form-group">
+                        <label for="garment-type">Garment Type:</label>
+                        <select id="garment-type" required>
+                            <option value="">Select garment type</option>
+                            <option value="top">Top</option>
+                            <option value="bottom">Bottom</option>
+                            <option value="dress">Dress</option>
+                            <option value="outerwear">Outerwear</option>
+                            <option value="shoes">Shoes</option>
+                            <option value="accessory">Accessory</option>
+                        </select>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label for="garment-description">Describe the Garment:</label>
+                        <textarea id="garment-description" rows="4" placeholder="e.g., A red floral summer dress"></textarea>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label for="garment-image">Or Upload Garment Image:</label>
+                        <input type="file" id="garment-image" accept="image/*" onchange="previewGarmentImage(this)">
+                        <div class="image-preview">
+                            <img id="preview-garment-image" src="#" alt="Preview">
+                            <p id="preview-garment-text">No image selected</p>
+                        </div>
+                    </div>
+                   
+                    <button type="submit" id="suggest-outfit-button">Suggest Outfit</button>
+                </form>
+                <div class="error-message" id="what-to-wear-error"></div>
+               
+                <div class="suggestions-section" id="suggestions-section">
+                    <h3>Outfit Suggestions</h3>
+                    <div class="loader" id="what-to-wear-loader"></div>
+                    <div class="suggestions-content" id="suggestions-content">
+                        <p id="outfit-suggestions"></p>
+                    </div>
+                </div>
+            </div>
+           
+            <!-- Wardrobe Section -->
+            <div class="wardrobe-section">
+                <h2>My Wardrobe</h2>
+                <button class="add-garment-button" onclick="addGarmentInput()">Add Garment</button>
+                <form id="wardrobe-form">
+                    <div id="garment-inputs">
+                        <!-- Garment input groups will be added here dynamically -->
+                    </div>
+                    <button type="submit" id="generate-outfits-button">Generate Outfits</button>
+                </form>
+                <div class="error-message" id="wardrobe-error"></div>
+               
+                <div class="wardrobe-output-section" id="wardrobe-output-section">
+                    <h3>Outfit Suggestions from Wardrobe</h3>
+                    <div class="loader" id="wardrobe-loader"></div>
+                    <div class="wardrobe-output-content" id="wardrobe-output-content">
+                        <p id="wardrobe-outfit-suggestions"></p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
+   
     <script>
-        // Preview image function
-        function previewImage(input) {
-            const previewImg = document.getElementById('preview-image');
-            const previewText = document.getElementById('preview-text');
-            
+        // Wardrobe Data
+        let wardrobe = [];
+
+        // Function to add garment input fields
+        function addGarmentInput() {
+            const garmentInputs = document.getElementById('garment-inputs');
+            const newGarmentInput = document.createElement('div');
+            newGarmentInput.classList.add('garment-input-group');
+            newGarmentInput.innerHTML = `
+                <div class="form-group">
+                    <label>Garment Type:</label>
+                    <select class="garment-type" required>
+                        <option value="">Select garment type</option>
+                        <option value="top">Top</option>
+                        <option value="bottom">Bottom</option>
+                        <option value="dress">Dress</option>
+                        <option value="outerwear">Outerwear</option>
+                        <option value="shoes">Shoes</option>
+                        <option value="accessory">Accessory</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Describe the Garment:</label>
+                    <textarea class="garment-description" rows="4" placeholder="e.g., A red floral summer dress"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Or Upload Garment Image:</label>
+                    <input type="file" class="garment-image" accept="image/*" onchange="previewWardrobeImage(this)">
+                    <div class="image-preview wardrobe-image-preview">
+                        <img src="#" alt="Preview">
+                        <p>No image selected</p>
+                    </div>
+                </div>
+            `;
+            garmentInputs.appendChild(newGarmentInput);
+        }
+
+        // Function to preview wardrobe image
+        function previewWardrobeImage(input) {
+            const previewImg = input.parentElement.querySelector('.wardrobe-image-preview img');
+            const previewText = input.parentElement.querySelector('.wardrobe-image-preview p');
+           
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                
+               
                 reader.onload = function(e) {
                     previewImg.src = e.target.result;
                     previewImg.style.display = 'block';
                     previewText.style.display = 'none';
                 }
-                
+               
                 reader.readAsDataURL(input.files[0]);
             }
         }
-        
-        // Form submission
-        document.getElementById('analyzer-form').addEventListener('submit', function(e) {
+
+        // Wardrobe form submission
+        document.getElementById('wardrobe-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+           
             // Show loading state
-            document.getElementById('loader').style.display = 'block';
-            document.getElementById('analysis-section').style.display = 'none';
-            document.getElementById('result-section').style.display = 'block';
-            document.getElementById('error-message').style.display = 'none';
-            
-            // Get form data
+            document.getElementById('wardrobe-loader').style.display = 'block';
+            document.getElementById('wardrobe-output-content').style.display = 'none';
+            document.getElementById('wardrobe-output-section').style.display = 'block';
+            document.getElementById('wardrobe-error').style.display = 'none';
+           
+            // Get user details
             const bodyType = document.getElementById('bodyType').value;
             const height = document.getElementById('height').value;
             const weight = document.getElementById('weight').value;
@@ -339,119 +463,110 @@
             const hairColor = document.getElementById('hairColor').value;
             const eyeColor = document.getElementById('eyeColor').value;
             const gender = document.getElementById('gender').value;
-            const imageFile = document.getElementById('outfitImage').files[0];
-            
-            // Create a FormData object to send the image
-            const formData = new FormData();
-            formData.append('image', imageFile);
-            
-            // Convert image to base64 for API
-            const reader = new FileReader();
-            reader.readAsDataURL(imageFile);
-            reader.onload = function() {
-                const imageBase64 = reader.result.split(',')[1];
-                
-                // Build the Gemini API request
-                const apiKey = 'AIzaSyCWsgga2ebmR7zp9dLvPwh6jHtc3p68wZ8';
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${apiKey}`;
-                
-                const requestData = {
-                    contents: [
-                        {
-                            parts: [
-                                {
-                                    text: `Analyze how well this outfit would suit a person with the following characteristics:
-                                    Body Type: ${bodyType}
-                                    Height: ${height} cm
-                                    Weight: ${weight} kg
-                                    Skin Tone: ${skinTone}
-                                    Hair Color: ${hairColor}
-                                    Eye Color: ${eyeColor}
-                                    Gender: ${gender}
-                                    
-                                    Provide a detailed analysis of the outfit's suitability for this person, including:
-                                    1. Overall suitability score (1-10)
-                                    2. Color harmony with their features
-                                    3. Style fit for their body type
-                                    4. Specific suggestions for improvements or confirmation if the outfit is already good
-                                    
-                                    Format your response as JSON with the following structure:
-                                    {
-                                        "overallScore": 7,
-                                        "colorHarmony": "Detailed analysis of color harmony...",
-                                        "styleFit": "Detailed analysis of style fit...",
-                                        "suggestions": "Specific suggestions for improvements..."
-                                    }`
-                                },
-                                {
-                                    inline_data: {
-                                        mime_type: "image/jpeg",
-                                        data: imageBase64
-                                    }
-                                }
-                            ]
-                        }
-                    ],
-                    generationConfig: {
-                        temperature: 0.4,
-                        topK: 32,
-                        topP: 1,
-                        maxOutputTokens: 2048
-                    }
-                };
-                
-                // Make the API request
-                fetch(apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Hide loader
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('analysis-section').style.display = 'block';
-                    
-                    try {
-                        // Extract the JSON response from the Gemini API text
-                        const responseText = data.candidates[0].content.parts[0].text;
-                        const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-                        const jsonStr = jsonMatch ? jsonMatch[0] : null;
-                        
-                        if (jsonStr) {
-                            const analysisData = JSON.parse(jsonStr);
-                            
-                            // Update UI with the analysis results
-                            document.getElementById('suitability-result').textContent = 
-                                `Score: ${analysisData.overallScore}/10`;
-                            document.getElementById('color-harmony').textContent = 
-                                analysisData.colorHarmony;
-                            document.getElementById('style-fit').textContent = 
-                                analysisData.styleFit;
-                            document.getElementById('suggestions').textContent = 
-                                analysisData.suggestions;
-                        } else {
-                            throw new Error('Could not parse response from Gemini API');
-                        }
-                    } catch (error) {
-                        // If there's an issue with JSON parsing, display the raw text
-                        const responseText = data.candidates[0].content.parts[0].text;
-                        document.getElementById('suitability-result').textContent = "Analysis completed";
-                        document.getElementById('color-harmony').textContent = responseText;
-                        document.getElementById('style-fit').textContent = "";
-                        document.getElementById('suggestions').textContent = "";
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('error-message').textContent = 'Error analyzing outfit. Please try again.';
-                    document.getElementById('error-message').style.display = 'block';
-                });
-            };
+           
+            // Get wardrobe data
+            const garmentInputs = document.querySelectorAll('.garment-input-group');
+            wardrobe = [];
+            garmentInputs.forEach(input => {
+                const garmentType = input.querySelector('.garment-type').value;
+                const garmentDescription = input.querySelector('.garment-description').value;
+                const garmentImage = input.querySelector('.garment-image').files[0];
+                wardrobe.push({ garmentType, garmentDescription, garmentImage });
+            });
+           
+            // Convert images to base64
+            const promises = wardrobe.map(item => {
+                if (item.garmentImage) {
+                    return new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(item.garmentImage);
+                        reader.onload = function() {
+                            item.garmentImageBase64 = reader.result.split(',')[1];
+                            resolve();
+                        };
+                    });
+                } else {
+                    return Promise.resolve();
+                }
+            });
+           
+            Promise.all(promises).then(() => {
+                sendWardrobeRequest(bodyType, height, weight, skinTone, hairColor, eyeColor, gender);
+            });
         });
+
+        function sendWardrobeRequest(bodyType, height, weight, skinTone, hairColor, eyeColor, gender) {
+            // Build the Gemini API request
+            const apiKey = 'AIzaSyCWsgga2ebmR7zp9dLvPwh6jHtc3p68wZ8';
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${apiKey}`;
+           
+            const requestData = {
+                contents: [
+                    {
+                        parts: [
+                            {
+                                text: `Suggest the best outfits from the following wardrobe:
+                                Body Type: ${bodyType}
+                                Height: ${height} cm
+                                Weight: ${weight} kg
+                                Skin Tone: ${skinTone}
+                                Hair Color: ${hairColor}
+                                Eye Color: ${eyeColor}
+                                Gender: ${gender}
+                               
+                                Wardrobe Items:
+                                ${wardrobe.map(item => `- ${item.garmentType}: ${item.garmentDescription}`).join('\n')}
+                               
+                                Provide detailed suggestions for the best outfits, including:
+                                1. Combinations of garments
+                                2. Color harmony
+                                3. Occasions the outfits are suitable for
+                                4. Styling tips
+                               
+                                Format your response as a well-structured paragraph.`
+                            },
+                            ...wardrobe.filter(item => item.garmentImageBase64).map(item => ({
+                                inline_data: {
+                                    mime_type: "image/jpeg",
+                                    data: item.garmentImageBase64
+                                }
+                            }))
+                        ]
+                    }
+                ],
+                generationConfig: {
+                    temperature: 0.4,
+                    topK: 32,
+                    topP: 1,
+                    maxOutputTokens: 2048
+                }
+            };
+           
+            // Make the API request
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loader
+                document.getElementById('wardrobe-loader').style.display = 'none';
+                document.getElementById('wardrobe-output-content').style.display = 'block';
+               
+                // Display the suggestions
+                const responseText = data.candidates[0].content.parts[0].text;
+                document.getElementById('wardrobe-outfit-suggestions').textContent = responseText;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('wardrobe-loader').style.display = 'none';
+                document.getElementById('wardrobe-error').textContent = 'Error generating outfit suggestions. Please try again.';
+                document.getElementById('wardrobe-error').style.display = 'block';
+            });
+        }
     </script>
 </body>
 </html>
